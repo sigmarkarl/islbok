@@ -3,6 +3,7 @@
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%@ page import="org.simmi.server.FrislbokServiceImpl" %>
 
 <!DOCTYPE html>
 <html>
