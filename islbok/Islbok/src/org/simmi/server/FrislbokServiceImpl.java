@@ -291,7 +291,7 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			URLConnection urlconn = url.openConnection();
 			if( cookiestr != null ) {
 				//this.log("ok "+cookies.length);
-				this.log(cookiestr);
+				//this.log(cookiestr);
 				urlconn.setRequestProperty("Cookie", cookiestr);
 			}
 			InputStream is = urlconn.getInputStream();
