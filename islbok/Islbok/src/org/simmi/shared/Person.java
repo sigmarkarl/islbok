@@ -1,4 +1,4 @@
-package org.simmi.client;
+package org.simmi.shared;
 
 import java.util.Date;
 import java.util.HashSet;
