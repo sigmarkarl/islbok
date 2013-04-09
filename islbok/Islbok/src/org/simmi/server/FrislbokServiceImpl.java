@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.simmi.client.FrislbokService;
-import org.simmi.client.Person;
+import org.simmi.shared.Person;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;

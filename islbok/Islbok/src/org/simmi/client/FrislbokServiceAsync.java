@@ -1,5 +1,7 @@
 package org.simmi.client;
 
+import org.simmi.shared.Person;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface FrislbokServiceAsync {
