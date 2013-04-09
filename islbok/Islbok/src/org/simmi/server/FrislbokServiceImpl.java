@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.simmi.client.FrislbokService;
 import org.simmi.shared.Person;
 
@@ -28,13 +32,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONNumber;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONString;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class FrislbokServiceImpl extends RemoteServiceServlet implements FrislbokService {
@@ -173,31 +170,31 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	}
 	
 	public Person[] parseIslbokPersonArray( String jsonPersonArray ) {
-		JSONValue 	jsonval = JSONParser.parseLenient( jsonPersonArray );
-		JSONArray	jsonarr = jsonval.isArray();
+		JSONArray 	jsonarr = (JSONArray)JSONValue.parse( jsonPersonArray );
 		
 		Person[] persons = new Person[ jsonarr.size() ];
 		for( int i = 0; i < jsonarr.size(); i++ ) {
-			JSONValue jsonvalue = jsonarr.get(i);
-			JSONObject jsonobj = jsonvalue.isObject();
+			JSONObject jsonobj = (JSONObject)jsonarr.get(i);
+			//JSONObject jsonobj = jsonvalue.isObject();
 			persons[i] = parseIslbokPerson( jsonobj );
 		}
 		return persons;
 	}
 	
 	public Person parseIslbokPerson( JSONObject jsonobj ) {
-		JSONString name = jsonobj.get("name").isString();
+		String name = (String)jsonobj.get("name");
 		
-		JSONString dob = jsonobj.get("dob").isString();
-		JSONNumber gender = jsonobj.get("gender").isNumber();
-		JSONString text = jsonobj.get("text").isString();
-		JSONNumber id = jsonobj.get("id").isNumber();
+		String dob = (String)jsonobj.get("dob");
+		String gender = (String)jsonobj.get("gender");
+		String text = (String)jsonobj.get("text");
+		String id = (String)jsonobj.get("id");
 		
-		JSONNumber motherislbokid = jsonobj.get("mother").isNumber();
-		JSONNumber fatherislbokid = jsonobj.get("father").isNumber();
+		String motherislbokid = (String)jsonobj.get("mother");
+		String fatherislbokid = (String)jsonobj.get("father");
 		
-		String dateofbirth = dob.stringValue();
-		DateTimeFormat dateformat = null;
+		String dateofbirth = dob;
+		SimpleDateFormat	sdateformat = new SimpleDateFormat();
+		/*DateTimeFormat dateformat = null;
 		//DateTimeFormat.PredefinedFormat.YEAR_MONTH_DAY
 		if( dateofbirth.length() == 8 ) {
 			if( dateofbirth.endsWith("0000") ) {
@@ -213,19 +210,19 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		
 		Date date = dateformat == null ? null : dateformat.parse(dateofbirth);
 		
-		String namestr = name.stringValue();
-		int genderval = (int)gender.doubleValue();
-		final Person person = new Person( namestr, date, genderval );
-		person.setIslbokid( Long.toString( (long)id.doubleValue() ) );
-		person.setComment( text.stringValue() );
+		String namestr = name.stringValue();*/
+		int genderval = Integer.parseInt( gender );
+		final Person person = new Person( name, null/*date*/, genderval );
+		person.setIslbokid( id );
+		person.setComment( text );
 		
 		Person father = new Person();
 		father.setGender( 1 );
-		father.setIslbokid( Long.toString( (long)fatherislbokid.doubleValue() ) );
+		father.setIslbokid( fatherislbokid );
 		person.setParent( father );
 		Person mother = new Person();
 		mother.setGender( 2 );
-		mother.setIslbokid( Long.toString( (long)motherislbokid.doubleValue() ) );
+		mother.setIslbokid( motherislbokid );
 		person.setParent( mother );
 		
 		return person;
@@ -234,8 +231,9 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	public Person parseIslbokPerson( String jsonPerson ) {
 		if( jsonPerson != null ) {
 			//JSON
-			JSONValue 	jsonval = JSONParser.parseLenient( jsonPerson );
-			JSONObject 	jsonobj = jsonval.isObject();
+			JSONObject	jsonobj = (JSONObject)JSONValue.parse( jsonPerson );
+			//JSONValue 	jsonval = JSONParser.parseLenient( jsonPerson );
+			//JSONObject 	jsonobj = jsonval.isObject();
 			return parseIslbokPerson( jsonobj );
 		}
 		return null;
