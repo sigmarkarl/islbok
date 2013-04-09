@@ -27,6 +27,12 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class FrislbokServiceImpl extends RemoteServiceServlet implements FrislbokService {
@@ -159,6 +165,58 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			savePerson( person );
 		}
 		
+		return null;
+	}
+	
+	public Person parseIslbokPerson( String jsonPerson ) {
+		if( jsonPerson != null ) {
+			//JSON
+			JSONValue 	jsonval = JSONParser.parseLenient( jsonPerson );
+			JSONObject 	jsonobj = jsonval.isObject();
+			JSONString name = jsonobj.get("name").isString();
+			
+			JSONString dob = jsonobj.get("dob").isString();
+			JSONNumber gender = jsonobj.get("gender").isNumber();
+			JSONString text = jsonobj.get("text").isString();
+			JSONNumber id = jsonobj.get("id").isNumber();
+			
+			JSONNumber motherislbokid = jsonobj.get("mother").isNumber();
+			JSONNumber fatherislbokid = jsonobj.get("father").isNumber();
+			
+			String dateofbirth = dob.stringValue();
+			DateTimeFormat dateformat = null;
+			//DateTimeFormat.PredefinedFormat.YEAR_MONTH_DAY
+			if( dateofbirth.length() == 8 ) {
+				if( dateofbirth.endsWith("0000") ) {
+					dateofbirth = dateofbirth.substring(0,4);
+					dateformat = DateTimeFormat.getFormat("yyyy");
+				} else if( dateofbirth.endsWith("00") ) {
+					dateofbirth = dateofbirth.substring(0,6);
+					dateformat = DateTimeFormat.getFormat("yyyyMM");
+				} else dateformat = DateTimeFormat.getFormat("yyyyMMdd");
+			}
+			else if( dateofbirth.length() == 6 ) dateformat = DateTimeFormat.getFormat("yyyyMM");
+			else if( dateofbirth.length() == 4 ) dateformat = DateTimeFormat.getFormat("yyyy");
+			
+			Date date = dateformat == null ? null : dateformat.parse(dateofbirth);
+			
+			String namestr = name.stringValue();
+			int genderval = (int)gender.doubleValue();
+			final Person person = new Person( namestr, date, genderval );
+			person.setIslbokid( Long.toString( (long)id.doubleValue() ) );
+			person.setComment( text.stringValue() );
+			
+			Person father = new Person();
+			father.setGender( 1 );
+			father.setIslbokid( Long.toString( (long)fatherislbokid.doubleValue() ) );
+			person.setParent( father );
+			Person mother = new Person();
+			mother.setGender( 2 );
+			mother.setIslbokid( Long.toString( (long)motherislbokid.doubleValue() ) );
+			person.setParent( mother );
+			
+			return person;
+		}
 		return null;
 	}
 
