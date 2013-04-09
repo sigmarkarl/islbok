@@ -253,7 +253,7 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			
 			String headerName=null;
 			for (int i=1; (headerName = uc.getHeaderFieldKey(i))!=null; i++) {
-			 	this.log( headerName );
+			 	//this.log( headerName );
 				if (headerName.equalsIgnoreCase("Set-Cookie")) {               
 			 		String cookie = uc.getHeaderField(i);
 			 		cookie = cookie.substring(0, cookie.indexOf(";"));
