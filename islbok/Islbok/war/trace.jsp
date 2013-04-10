@@ -8,6 +8,8 @@
 	String traceJSON = fimp.islbok_trace(currPerson.getSession(), id);
 	//ArrayList personlists = fimp.parseIslbokPersonArrayTrace(traceJSON); 
 %>
+%>
+
 <%@ include file="top.jsp" %>
 
 <%= currPerson.getSession() %>

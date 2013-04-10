@@ -11,6 +11,7 @@ public class Person implements Serializable {
 	
 	String	name;
 	int		gender;
+	Date	dob;
 	String	dateOfBirth;
 	String	comment;
 	String	key;
@@ -117,6 +118,14 @@ public class Person implements Serializable {
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+	
+	public Date getDob() {
+		return dob;
+	}
+	
+	public void setDob( Date dob ) {
+		this.dob = dob;
+	}
 
 	public String getComment() {
 		return comment;
@@ -137,6 +146,13 @@ public class Person implements Serializable {
 	public Person() {
 		//children = new HashSet<Person>();
 		//siblings = new HashSet<Person>();
+	}
+	
+	public Person( String name, Date dob, int gender ) {
+		this();
+		this.name = name;
+		this.gender = gender;
+		this.dob = dob;
 	}
 	
 	public Person( String name, String dateOfBirth, int gender ) {
