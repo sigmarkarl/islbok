@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -451,5 +452,30 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public ArrayList<ArrayList<Person>> parseIslbokPersonArrayTrace( String jsonPersonArray ) {
+		JSONArray 	jsonarr = (JSONArray)JSONValue.parse( jsonPersonArray );
+		
+		ArrayList<ArrayList<Person>> persons = new ArrayList<ArrayList<Person>>();
+		ArrayList<Person> personsLeft = new ArrayList<Person>();
+		ArrayList<Person> personsRight = new ArrayList<Person>();
+
+		for(int i = 0;i < jsonarr.size();i++)
+		{
+			JSONObject jsonobj = (JSONObject)jsonarr.get(i);
+			Person temp = parseIslbokPerson( jsonobj );
+			if(temp.getIslbokid() != "-10")
+			{
+				personsLeft.add(temp);
+			}
+			else
+			{
+				personsRight.add(temp);
+			}
+		}
+		persons.add(personsLeft);
+		persons.add(personsRight);
+		return persons;
 	}
 }
