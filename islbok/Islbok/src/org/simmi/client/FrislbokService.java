@@ -33,4 +33,5 @@ public interface FrislbokService extends RemoteService {
 	public String savePersonArray( Person[] persons );
 	public String islbok_siblings(String session, String id);
 	public String islbok_ancestors( String session, String id );
+	public String islbok_trace( String session, String id );
 }

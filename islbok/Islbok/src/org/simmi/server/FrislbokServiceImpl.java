@@ -427,4 +427,29 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		}
 		return null;
 	}
+
+	@Override
+	public String islbok_trace(String session, String id) {
+		try {
+			String query = "trace?session="+session+"&id="+id;
+			String urlstr = "http://www.islendingabok.is/ib_app/"+query;
+			
+			URL url = new URL( urlstr );
+			InputStream is = url.openStream();
+			ByteArrayOutputStream	baos = new ByteArrayOutputStream();
+			
+			int c = is.read();
+			while( c != -1 ) {
+				baos.write( c );
+				c = is.read();
+			}
+			is.close();
+			return baos.toString( "iso-8859-1" );
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

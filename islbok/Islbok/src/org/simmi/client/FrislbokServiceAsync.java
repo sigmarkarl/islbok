@@ -30,4 +30,6 @@ public interface FrislbokServiceAsync {
 
 	void islbok_ancestors(String session, String id, AsyncCallback<String> callback);
 
+	void islbok_trace(String session, String id, AsyncCallback<String> callback);
+
 }

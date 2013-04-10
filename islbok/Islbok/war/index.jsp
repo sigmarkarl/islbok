@@ -152,17 +152,4 @@
 			</div>
 		</div>
 	</div>
-
-</secton>
-<div class="nav">
-	<ul>
-		<li class="home"><a href="index.html">Heim</a></li>
-		<li class="search"><a href="leit.html">Leit</a></li>
-		<li class="familytree"><a href="familytree.html">Fjölskuldutré</a></li>
-		<li class="top10"><a href="ftrace.html">Topp 10</a></li>
-		<li class="facetrace"><a href="top10.html">Rekja saman facebook vini</a></li>
-		<li class="logout"><a href="login.html">Hætta</a></li>
-	</ul>
-</div>
-
 <%@ include file="bottom.jsp" %>
