@@ -296,8 +296,8 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	@Override
 	public String islbok_find( String session, String name, String dob ) {
 		try {
-			String query = "get?session="+session;
-			if( name != null && name.length() > 0 ) query += "&name="+name;
+			String query = "find?session="+session;
+			if( name != null && name.length() > 0 ) query += "&name="+URLEncoder.encode( name , "ISO-8859-1");
 			if( dob != null && dob.length() > 0 ) query += "&dob="+dob;
 			//String query = URLEncoder.encode( stuff, "UTF8" );
 			String urlstr = "http://www.islendingabok.is/ib_app/"+query;
