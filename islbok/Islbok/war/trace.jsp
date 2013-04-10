@@ -2,11 +2,10 @@
 <%@ page import="org.simmi.shared.Person" %>
 <% 
 	FrislbokServiceImpl fimp = new FrislbokServiceImpl();
-	String session = request.getParameter("session");
 	String id = request.getParameter("id");
 	Person currPerson = (Person) session.getAttribute("currPerson");
 	String traceJSON = fimp.islbok_trace(currPerson.getSession(), id);
-	Person[] persons = 
+%>
 
 <%@ include file="top.jsp" %>
 		<div class="wrap top10">			
