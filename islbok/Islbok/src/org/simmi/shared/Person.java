@@ -1,12 +1,12 @@
 package org.simmi.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Person implements IsSerializable {
+public class Person implements Serializable {
 	//private static final long serialVersionUID = 1L;
 	
 	String	name;

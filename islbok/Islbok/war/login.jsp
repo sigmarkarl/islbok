@@ -1,5 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="org.simmi.shared.Person" %>
 <%@ include file="top.jsp" %>
+<%
+	Person currPerson = (Person) session.getAttribute("currPerson");
+	if(currPerson != null)
+	{
+		response.sendRedirect("index.jsp");
+	}
+ %>
 	<body class="login">
 		<div class="wrap">
 

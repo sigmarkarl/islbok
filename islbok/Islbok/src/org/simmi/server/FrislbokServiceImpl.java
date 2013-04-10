@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -185,44 +186,45 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		String name = (String)jsonobj.get("name");
 		
 		String dob = (String)jsonobj.get("dob");
-		String gender = (String)jsonobj.get("gender");
+		long gender = (Long)jsonobj.get("gender");
 		String text = (String)jsonobj.get("text");
-		String id = (String)jsonobj.get("id");
+		long id = (Long)jsonobj.get("id");
 		
-		String motherislbokid = (String)jsonobj.get("mother");
-		String fatherislbokid = (String)jsonobj.get("father");
+		Long motherislbokid = (Long)jsonobj.get("mother");
+		Long fatherislbokid = (Long)jsonobj.get("father");
 		
 		String dateofbirth = dob;
-		SimpleDateFormat	sdateformat = new SimpleDateFormat();
-		/*DateTimeFormat dateformat = null;
-		//DateTimeFormat.PredefinedFormat.YEAR_MONTH_DAY
+		SimpleDateFormat sdateformat = null;
+		ParsePosition ps = new ParsePosition(0);
 		if( dateofbirth.length() == 8 ) {
 			if( dateofbirth.endsWith("0000") ) {
 				dateofbirth = dateofbirth.substring(0,4);
-				dateformat = DateTimeFormat.getFormat("yyyy");
+				sdateformat = new SimpleDateFormat("yyyy");
 			} else if( dateofbirth.endsWith("00") ) {
 				dateofbirth = dateofbirth.substring(0,6);
-				dateformat = DateTimeFormat.getFormat("yyyyMM");
-			} else dateformat = DateTimeFormat.getFormat("yyyyMMdd");
+				sdateformat = new SimpleDateFormat("yyyyMM");
+			} else sdateformat = new SimpleDateFormat("yyyyMMdd");
 		}
-		else if( dateofbirth.length() == 6 ) dateformat = DateTimeFormat.getFormat("yyyyMM");
-		else if( dateofbirth.length() == 4 ) dateformat = DateTimeFormat.getFormat("yyyy");
+		else if( dateofbirth.length() == 6 ) sdateformat = new SimpleDateFormat("yyyyMM");
+		else if( dateofbirth.length() == 4 ) sdateformat = new SimpleDateFormat("yyyy");
 		
-		Date date = dateformat == null ? null : dateformat.parse(dateofbirth);
+		Date date = sdateformat == null ? null : sdateformat.parse(dateofbirth, ps);
+		//parse þarf parsepos
 		
-		String namestr = name.stringValue();*/
-		int genderval = Integer.parseInt( gender );
-		final Person person = new Person( name, null/*date*/, genderval );
-		person.setIslbokid( id );
+		//String namestr = name.stringValue();
+		int genderval = (int)( gender );
+		//final Person person = new Person( name, null/*date*/, genderval );
+		final Person person = new Person( name, date, genderval );
+		person.setIslbokid( Long.toString(id) );
 		person.setComment( text );
 		
 		Person father = new Person();
 		father.setGender( 1 );
-		father.setIslbokid( fatherislbokid );
+		father.setIslbokid( Long.toString(fatherislbokid) );
 		person.setParent( father );
 		Person mother = new Person();
 		mother.setGender( 2 );
-		mother.setIslbokid( motherislbokid );
+		mother.setIslbokid( Long.toString(motherislbokid) );
 		person.setParent( mother );
 		
 		return person;
