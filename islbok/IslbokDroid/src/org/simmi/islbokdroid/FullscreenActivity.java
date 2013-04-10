@@ -12,6 +12,12 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -55,9 +61,33 @@ public class FullscreenActivity extends Activity {
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_fullscreen);
 		
-		WebView myWebView = (WebView) findViewById(R.id.webView1);
+		final WebView myWebView = (WebView) findViewById(R.id.webView1);
 		WebSettings webSettings = myWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
+		webSettings.setSavePassword( false );
+		webSettings.setSaveFormData( false );
+		
+		Session.openActiveSession(this, true, new Session.StatusCallback() {
+		    // callback when session changes state
+		    @Override
+		    public void call(Session session, SessionState state, Exception exception) {
+		    	if (session.isOpened()) {
+		    		Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+	    			  // callback after Graph API response with user object
+	    			  @Override
+	    			  public void onCompleted(GraphUser user, Response response) {
+	    				  if (user != null) {
+	    					  String imgurl = "https://graph.facebook.com/" + user.getId() + "/picture"; //user.getId();
+	    					  myWebView.addJavascriptInterface(imgurl, "imgurl");
+	    					  //TextView welcome = (TextView) findViewById(R.id.welcome);
+	    					  //welcome.setText("Hello " + user.getName() + "!");
+	    				  }
+	    			  }
+	    			});
+		    	}
+		    }
+		});
+		
 		myWebView.loadUrl("http://islboknet.appspot.com");
 
 		// Set up an instance of SystemUiHider to control the system UI for
