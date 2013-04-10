@@ -71,14 +71,14 @@ li {
 .nav .familytree a {
 	background-position: 50% -46px;
 }
-.nav .top10 a {
+.nav .facetrace a {
 	background-position: 50% -69px;
 }
-.nav .facetrace a {
+.nav .top10 a {
 	background-position: 50% -92px;
 	border: none;
 }
-.nav .facetrace {
+.nav .top10 {
 	border: none;
 }
 .nav .logout {
@@ -186,6 +186,7 @@ li {
 	font-size: 1em;
 	font-weight: normal;
 }
+.top10 ul:after,
 .trace:after,
 .trace li:after,
 .tabs .tab:after,
@@ -381,6 +382,7 @@ li {
 
 /**** popup ****/
 .popup {
+	z-index: 10;
 	width: 262px;
 	padding: 30px 20px;
 	color: #fff;
@@ -495,14 +497,15 @@ li {
 
 
 /**** top10 ****/
-.top10 .wrap {
+div.top10 {
 	background: #b4261b url('img/container-bg.png') 0 0 repeat-x;
 }
 .top10 .tlist {
 	background: url(img/top10-trans.png) 50% 50px no-repeat;
 	position: relative;
 	min-height: 400px;
-	padding: 0 0 43px 0;
+	margin: 0 0 43px 0;
+	z-index:5;
 }
 .top10 .tlist li {
 	padding: 2px;

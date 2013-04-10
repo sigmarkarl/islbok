@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -295,8 +296,8 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	@Override
 	public String islbok_find( String session, String name, String dob ) {
 		try {
-			String query = "get?session="+session;
-			if( name != null && name.length() > 0 ) query += "&name="+name;
+			String query = "find?session="+session;
+			if( name != null && name.length() > 0 ) query += "&name="+URLEncoder.encode( name , "ISO-8859-1");
 			if( dob != null && dob.length() > 0 ) query += "&dob="+dob;
 			//String query = URLEncoder.encode( stuff, "UTF8" );
 			String urlstr = "http://www.islendingabok.is/ib_app/"+query;
@@ -497,5 +498,30 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public ArrayList<ArrayList<Person>> parseIslbokPersonArrayTrace( String jsonPersonArray ) {
+		JSONArray 	jsonarr = (JSONArray)JSONValue.parse( jsonPersonArray );
+		
+		ArrayList<ArrayList<Person>> persons = new ArrayList<ArrayList<Person>>();
+		ArrayList<Person> personsLeft = new ArrayList<Person>();
+		ArrayList<Person> personsRight = new ArrayList<Person>();
+
+		for(int i = 0;i < jsonarr.size();i++)
+		{
+			JSONObject jsonobj = (JSONObject)jsonarr.get(i);
+			Person temp = parseIslbokPerson( jsonobj );
+			if(temp.getIslbokid() != "-10")
+			{
+				personsLeft.add(temp);
+			}
+			else
+			{
+				personsRight.add(temp);
+			}
+		}
+		persons.add(personsLeft);
+		persons.add(personsRight);
+		return persons;
 	}
 }
