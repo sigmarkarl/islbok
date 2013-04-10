@@ -6,44 +6,59 @@
 	String id = request.getParameter("id");
 	Person currPerson = (Person) session.getAttribute("currPerson");
 	String traceJSON = fimp.islbok_trace(currPerson.getSession(), id);
-	//ArrayList personlists = (ArrayList) fimp.parseIslbokPersonArrayTrace(traceJSON); 
+
+	if(traceJSON.charAt(0) == '{' || traceJSON.charAt(0) == '[')
+	{
+		ArrayList personlists = (ArrayList) fimp.parseIslbokPersonArrayTrace(traceJSON);
+		ArrayList personLeft = (ArrayList) personlists.get(0);
+		ArrayList personRight = (ArrayList) personlists.get(1);
 %>
 <%@ include file="top.jsp" %>
-<%= id %>
 		<div class="wrap top10">			
 				<div class="trace">
 					<ul>
-					<% 
-						if(personlists.get(0).get(0).getIslbokid().equals(personlists.get(0).get(1).getIslbokid()))
-						{
-							%> 
-							<li><a href=""><img src="images/profile.png"><br /><%=personlists.get(0).get(0).getName() %><br /><%=personlists.get(0).get(0).getDateOfBirthHR() %></a></li>
-							<%	
-						}
-						else
-						{
-							%>
-							<li><a href=""><img src="images/profile.png"><br /><%=personlists.get(0).get(0).getName() %><br /><%=personlists.get(0).get(0).getDateOfBirthHR() %></a><a href=""><img src="images/profile.png"><br /><%=personlists.get(0).get(1).getName() %><br /><%=personlists.get(0).get(1).getDateOfBirthHR() %></a></li>
-							<%
-						}
-
-					for(int i = 2; i<personlists.get(0).size();i++)
+					<%
+					Person c1 = (Person) personLeft.get(0);
+					Person c2 = (Person) personLeft.get(1);
+					if(c1.getIslbokid().equals(c2.getIslbokid()))
 					{
-						if(personlists.get(1).get(i) != null)
+						%> 
+						<li class="single"><a href=""><img src="images/profile.png"><br /><%=c1.getName() %><br /><%=c1.getDateOfBirthHR() %></a></li>
+						<%	
+					}
+					else
+					{
+						%>
+						<li><a href=""><img src="images/profile.png"><br /><%=c1.getName() %><br /><%=c1.getDateOfBirthHR() %></a><a href=""><img src="images/profile.png"><br /><%=c2.getName() %><br /><%=c2.getDateOfBirthHR() %></a></li>
+						<%
+					}
+					
+					personLeft.remove(c1);
+					personLeft.remove(c2);
+					
+					for(int i = 0; i < personLeft.size();i++)
+					{
+						Person t1 = (Person) personLeft.get(i);
+						if(i < personRight.size())
 						{
+							Person t2 = (Person) personRight.get(i);
 							%>
-							<li><a href=""><img src="images/profile.png"><br /><%=personlists.get(0).get(i).getName() %><br /><%=personlists.get(0).get(i).getDateOfBirthHR() %></a><a href=""><img src="images/profile.png"><br /><%=personlists.get(1).get(i).getName() %><br /><%=personlists.get(1).get(i).getDateOfBirthHR() %></a></li>
+							<li><a href="get.jsp?id=<%=t1.getIslbokid()%>"><img src="images/profile.png"><br /><%=t1.getName() %><br /><%=t1.getDateOfBirthHR() %></a><a><img src="images/profile.png"><br /><%=t2.getName() %><br /><%=t2.getDateOfBirthHR() %></a></li>
 							<%							
 						}
 						else
 						{
 							%>
-							<li><a href=""><img src="images/profile.png"><br /><%=personlists.get(0).get(i).getName() %><br /><%=personlists.get(0).get(i).getDateOfBirthHR() %></a></li>
+							<li><a href=""><img src="images/profile.png"><br /><%=t1.getName() %><br /><%=t1.getDateOfBirthHR() %></a></li>
 							<%
 						}
 											
 					}
 				 %>
-					</ul>
+					</ul>	
 				</div>
+	<%
+	}//endif
+	%>
+				
 <%@ include file="bottom.jsp" %>

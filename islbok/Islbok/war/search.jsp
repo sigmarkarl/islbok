@@ -45,7 +45,7 @@
 					for(int i = 0;i<persons.length;i++)
 					{
 					%>
-					<li><a href="trace.jsp?id=<%=persons[i].getIslbokid()%>><span><img src="images/profile.png" /></span><span class="name"><%=persons[i].getName()%></span><br /><span class="dob"><%=persons[i].getDateOfBirthHR()%></span></a></li>
+					<li><a href="trace.jsp?id=<%=persons[i].getIslbokid()%>"><span><img src="images/profile.png" /></span><span class="name"><%=persons[i].getName()%></span><br /><span class="dob"><%=persons[i].getDateOfBirthHR()%></span></a></li>
 					<%
 					}
 					%>

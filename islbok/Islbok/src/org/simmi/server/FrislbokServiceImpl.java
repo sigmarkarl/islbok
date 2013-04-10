@@ -479,7 +479,7 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			URLConnection urlconn = url.openConnection();
 			if( cookiestr != null ) {
 				//this.log("ok "+cookies.length);
-				this.log(cookiestr);
+				//this.log(cookiestr);
 				urlconn.setRequestProperty("Cookie", cookiestr);
 			}
 			InputStream is = urlconn.getInputStream();
@@ -501,8 +501,8 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	}
 	
 	public ArrayList<ArrayList<Person>> parseIslbokPersonArrayTrace( String jsonPersonArray ) {
-		JSONArray 	jsonarr = (JSONArray)JSONValue.parse( jsonPersonArray );
-		
+		JSONArray jsonarr = (JSONArray)JSONValue.parse( jsonPersonArray );
+
 		ArrayList<ArrayList<Person>> persons = new ArrayList<ArrayList<Person>>();
 		ArrayList<Person> personsLeft = new ArrayList<Person>();
 		ArrayList<Person> personsRight = new ArrayList<Person>();
@@ -511,13 +511,13 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		{
 			JSONObject jsonobj = (JSONObject)jsonarr.get(i);
 			Person temp = parseIslbokPerson( jsonobj );
-			if(temp.getIslbokid() != "-10")
+			if(temp.getIslbokid().equals("-10"))
 			{
-				personsLeft.add(temp);
+				personsRight.add(temp);
 			}
 			else
 			{
-				personsRight.add(temp);
+				personsLeft.add(temp);
 			}
 		}
 		persons.add(personsLeft);

@@ -19,7 +19,7 @@ $(function(){
 		return false;
 	});
 	
-	body.delegate('form', 'submit', function(e){
+	body.delegate('#search', 'submit', function(e){
 		var popup = $('.popup'),
 			form = $(this),
 			link = $(this).attr('action');

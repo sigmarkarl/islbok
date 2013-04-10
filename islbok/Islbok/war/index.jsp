@@ -1,5 +1,6 @@
 <%@ page import="org.simmi.server.FrislbokServiceImpl" %>
 <%@ page import="org.simmi.shared.Person" %>
+<%@ page import="java.util.ArrayList" %>
 <% 
 	FrislbokServiceImpl fimp = new FrislbokServiceImpl();
 	String user = request.getParameter("username");
@@ -20,14 +21,11 @@
 				currPerson.setSession(values[0]);
 				session.setAttribute("currPerson", currPerson);
 				
-				//Person klasinn ætti mögulega að hafa method sem gerir þetta.
 				String fatherJSON = fimp.islbok_get(currPerson.getSession(), currPerson.getFather().getIslbokid());
 				currPerson.setFather(fimp.parseIslbokPerson(fatherJSON));
 				String motherJSON = fimp.islbok_get(currPerson.getSession(), currPerson.getMother().getIslbokid());
 				currPerson.setMother(fimp.parseIslbokPerson(motherJSON));
 				
-				//String siblingsJSON = fimp.islbok_siblings(currPerson.getSession(), currPerson.getIslbokid());
-				//currPerson.setSiblings(fimp.parseIslbokPersonArray(siblingsJSON));
 			}
 			else
 		 	{
@@ -79,37 +77,37 @@
 				</div>
 			</div>
 			<div class="tab siblings multi" id="tab2">
-				<div class="col1">
-					<h3>Alsystkin</h3>
-					<ul>
-						<li>								
-							<a href="#"><span class="img"><img src="images/profile.png" /></span>
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
-						<li>
-							<a href="#"><span class="img"><img src="images/profile.png" /></span>
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
-						<li>
-							<a href="#"><span class="img"><img src="images/profile.png" /></span>
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
-						<li>
-							<a href="#"><span class="img"><img src="images/profile.png" /></span>
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
-					</ul>
-				</div>
-				<div class="col2">
-					<h3>Hálfsystkin</h3>
-					<ul>
-						<li>
-							<a href="#"><span class="img"><img src="images/profile.png" /></span>
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
-					</ul>
-				</div>
-			</div>
+							<div class="col1">
+								<h3>Alsystkin</h3>
+								<ul>
+									<li>								
+										<a href="#"><span class="img"><img src="images/profile.png" /></span>
+										Nafn Nafnason<br /><span>1973</span></a>
+									</li>
+									<li>
+										<a href="#"><span class="img"><img src="images/profile.png" /></span>
+										Nafn Nafnason<br /><span>1973</span></a>
+									</li>
+									<li>
+										<a href="#"><span class="img"><img src="images/profile.png" /></span>
+										Nafn Nafnason<br /><span>1973</span></a>
+									</li>
+									<li>
+										<a href="#"><span class="img"><img src="images/profile.png" /></span>
+										Nafn Nafnason<br /><span>1973</span></a>
+									</li>
+								</ul>
+							</div>
+							<div class="col2">
+								<h3>Hálfsystkin</h3>
+								<ul>
+									<li>
+										<a href="#"><span class="img"><img src="images/profile.png" /></span>
+										Nafn Nafnason<br /><span>1973</span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
 			<div class="tab partners multi" id="tab3">
 				<div class="col1">
 					<h3>Eiginmaður</h3>
