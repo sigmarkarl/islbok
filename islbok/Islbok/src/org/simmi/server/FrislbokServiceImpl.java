@@ -7,9 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +51,7 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		if( personEntities.size() > 0 ) {
 			Entity 	e = personEntities.get(0);
 			String 	name = (String)e.getProperty("name");
-			Date 	dateOfBirth = (Date)e.getProperty("dateofbirth");
+			String 	dateOfBirth = (String)e.getProperty("dateofbirth");
 			Long 	gender = (Long)e.getProperty("gender");
 			String	comment = (String)e.getProperty("comment");
 			//String	fatherKey = (String)e.getProperty("father");
@@ -105,7 +102,7 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			Entity e = entityMap.get(key);
 			
 			String 	name = (String)e.getProperty("name");
-			Date 	dateOfBirth = (Date)e.getProperty("dateofbirth");
+			String 	dateOfBirth = (String)e.getProperty("dateofbirth");
 			Long 	gender = (Long)e.getProperty("gender");
 			String	comment = (String)e.getProperty("comment");
 			//String	fatherKey = (String)e.getProperty("father");
@@ -193,34 +190,15 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		Long motherislbokid = (Long)jsonobj.get("mother");
 		Long fatherislbokid = (Long)jsonobj.get("father");
 		
-		String dateofbirth = dob;
-		SimpleDateFormat sdateformat = null;
-		ParsePosition ps = new ParsePosition(0);
-		if( dateofbirth.length() == 8 ) {
-			if( dateofbirth.endsWith("0000") ) {
-				dateofbirth = dateofbirth.substring(0,4);
-				sdateformat = new SimpleDateFormat("yyyy");
-			} else if( dateofbirth.endsWith("00") ) {
-				dateofbirth = dateofbirth.substring(0,6);
-				sdateformat = new SimpleDateFormat("yyyyMM");
-			} else sdateformat = new SimpleDateFormat("yyyyMMdd");
-		}
-		else if( dateofbirth.length() == 6 ) sdateformat = new SimpleDateFormat("yyyyMM");
-		else if( dateofbirth.length() == 4 ) sdateformat = new SimpleDateFormat("yyyy");
-		
-		Date date = sdateformat == null ? null : sdateformat.parse(dateofbirth, ps);
-		//parse þarf parsepos
-		
 		//String namestr = name.stringValue();
 		int genderval = (int)( gender );
-		//final Person person = new Person( name, null/*date*/, genderval );
-		final Person person = new Person( name, date, genderval );
+		final Person person = new Person( name, dob, genderval );
 		person.setIslbokid( Long.toString(id) );
 		person.setComment( text );
 		
 		Person father = new Person();
 		father.setGender( 1 );
-		father.setIslbokid( Long.toString(fatherislbokid) );
+		father.setIslbokid( Long.toString(fatherislbokid) );	
 		person.setParent( father );
 		Person mother = new Person();
 		mother.setGender( 2 );
@@ -364,7 +342,7 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 		if( personEntities.size() > 0 ) {
 			Entity 	e = personEntities.get(0);
 			String 	name = (String)e.getProperty("name");
-			Date 	dateOfBirth = (Date)e.getProperty("dateofbirth");
+			String 	dateOfBirth = (String)e.getProperty("dateofbirth");
 			Long 	gender = (Long)e.getProperty("gender");
 			String	comment = (String)e.getProperty("comment");
 			String	fatherKey = (String)e.getProperty("father");

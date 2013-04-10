@@ -11,7 +11,7 @@ public class Person implements Serializable {
 	
 	String	name;
 	int		gender;
-	Date	dateOfBirth;
+	String	dateOfBirth;
 	String	comment;
 	String	key;
 	String	islbokid;
@@ -22,6 +22,7 @@ public class Person implements Serializable {
 	String	fbwriter;
 	String	geocode;
 	String	imgurl;
+	String	session;
 	
 	public String getIslbokid() {
 		return islbokid;
@@ -70,6 +71,14 @@ public class Person implements Serializable {
 	public void setFbwriter(String fbwriter) {
 		this.fbwriter = fbwriter;
 	}
+
+	public String getSession() {
+		return session;
+	}
+
+	public void setSession(String session) {
+		this.session = session;
+	}
 	
 	public String getName() {
 		return name;
@@ -87,11 +96,25 @@ public class Person implements Serializable {
 		this.gender = gender;
 	}
 
-	public Date getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
+	
+	public String getDateOfBirthHR() {
+		String hr = dateOfBirth;
+		if(dateOfBirth.length() == 8)
+		{
+			hr = dateOfBirth.substring(6,8) + " / " + dateOfBirth.substring(4,6) + " / " + dateOfBirth.substring(0,4);  
+		}
+		else if(dateOfBirth.length() == 6)
+		{
+			hr = dateOfBirth.substring(4,6) + " / " + dateOfBirth.substring(0,4);
+		}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+		return hr;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -116,7 +139,7 @@ public class Person implements Serializable {
 		//siblings = new HashSet<Person>();
 	}
 	
-	public Person( String name, Date dateOfBirth, int gender ) {
+	public Person( String name, String dateOfBirth, int gender ) {
 		this();
 		this.name = name;
 		this.gender = gender;
