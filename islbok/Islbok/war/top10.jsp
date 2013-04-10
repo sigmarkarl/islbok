@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="top.jsp" %>
 		<div class="wrap top10">
 				<ul class="tlist">
