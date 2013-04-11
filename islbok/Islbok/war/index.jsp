@@ -4,14 +4,14 @@
 <%@ page import="java.util.ArrayList" %>
 <% 
 	FrislbokServiceImpl fimp = new FrislbokServiceImpl();
-	String user = request.getParameter("username");
-	String pw = request.getParameter("pw");
 	Person currPerson = (Person) session.getAttribute("currPerson");
 
 	if(currPerson == null)
 	{
-		if(user != null && pw != null)
+		if(request.getParameter("username") != null && request.getParameter("pw") != null)
 		{
+			String user = request.getParameter("username");
+			String pw = request.getParameter("pw");
 			String loginstring = fimp.login(user, pw);
 			if(loginstring != null)
 			{
@@ -38,6 +38,9 @@
 			response.sendRedirect("login.jsp");
 		}
 	}
+
+	if(currPerson != null) 
+	{
  %>
 
 <%@ include file="top.jsp" %>
@@ -151,4 +154,6 @@
 			</div>
 		</div>
 	</div>
+<% } %>
 <%@ include file="bottom.jsp" %>
+
