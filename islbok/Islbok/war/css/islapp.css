@@ -50,10 +50,12 @@ li {
 	border-right: 1px solid #494949;
 	float: left;
 }
+.logout,
 .nav a {
  	text-indent: -9999%;
     white-space: nowrap;
   	overflow: hidden;
+  	z-index: 10;
 
 	background: url(img/nav-icons.png) 50% 0 no-repeat;
 	display: block;
@@ -84,7 +86,7 @@ li {
 .nav .logout {
 	border: none;
 }
-.nav .logout a {
+.logout {
 	background: url(img/logout.png) 0 0 no-repeat;
 	width: 19px;
 	height: 20px;
@@ -194,6 +196,7 @@ li {
 .tabs .col1:after,
 .tabs .content:after,
 .tree ul:after,
+.tree:after,
 .nav:after,
 .tabs ul:after,
 .tabs:after {
@@ -499,13 +502,14 @@ li {
 /**** top10 ****/
 div.top10 {
 	background: #b4261b url('img/container-bg.png') 0 0 repeat-x;
+	z-index:15;
 }
 .top10 .tlist {
 	background: url(img/top10-trans.png) 50% 50px no-repeat;
 	position: relative;
 	min-height: 400px;
 	margin: 0 0 43px 0;
-	z-index:5;
+	
 }
 .top10 .tlist li {
 	padding: 2px;
@@ -520,7 +524,7 @@ div.top10 {
 	position: absolute;
 	font-size: 0.5em;
 }
-.top10 .tlist .text {
+.top10 .tlist li.text {
 	box-shadow: none;
 	color: #fff;
 	font-size: .75em;
@@ -585,7 +589,7 @@ div.top10 {
 	top: 28px;
 }
 .top10 .tlist .n7 {
-	top: 132px;
+	top: 123px;
 	left: 49px;
 }
 .top10 .tlist .n9 {
@@ -596,24 +600,30 @@ div.top10 {
 	left: 224px;
 }
 
+
+
 /**** tree ****/
-.tree {
-	width: 2000px;
-	padding: 20px 0 0 0;
+.ft .nav {
+	position: fixed;
+	left: 0;
+	bottom: 0;
 }
-.tree:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
+.tree {
+	max-width: 320px;
+	padding: 44px 0 43px 0;
+	margin: 0 0 0 -17px;
+	font-size: .2em;
+}
+.tree > ul {
+	width: 1000px;
 }
 .tree ul {
 	margin: 0;
 	padding: 0;
 }
 .tree ul {
-	padding-bottom: 20px; position: relative;	
+	padding-bottom: 14px;
+	position: relative;	
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
@@ -629,8 +639,12 @@ div.top10 {
 	-moz-transition: all 0.5s;
 }
 
-/*We will use ::before and ::after to draw the connectors*/
+.tree li img {
+	max-width: 30px;
+	margin-bottom:5px;	
+}
 
+/* **** connectors **** */
 .tree li::before,
 .tree li::after {
 	content: '';
@@ -639,7 +653,7 @@ div.top10 {
 	right: 50%;
 	border-bottom: 6px solid #fff;
 	width: 50%; 
-	height: 20px;
+	height: 14px;
 }
 .tree li::after {
 	right: auto;
@@ -647,25 +661,21 @@ div.top10 {
 	border-left: 6px solid #fff;
 }
 
-/*We need to remove left-right connectors from elements without 
-any siblings*/
 .tree li:only-child::after,
 .tree li:only-child::before {
 	display: none;
 }
 
-/*Remove space from the top of single children*/
 .tree li:only-child {
 	padding-top: 0;
 }
 
-/*Remove left connector from first child and 
-right connector from last child*/
 .tree li:first-child::before,
 .tree li:last-child::after {
 	border: 0 none;
 }
-/*Adding back the vertical connector to the last nodes*/
+
+/* **** vertical connectors **** */
 .tree li:last-child::before {
 	border-right: 6px solid #fff;
 	border-radius: 0 0 5px 0;
@@ -678,7 +688,7 @@ right connector from last child*/
 	-moz-border-radius: 0 0 0 5px;
 }
 
-/*Time to add downward connectors from parents*/
+/* **** downward connectors **** */
 .tree ul ul::before {
 	content: '';
 	position: absolute; 
@@ -686,11 +696,10 @@ right connector from last child*/
 	left: 50%;
 	border-left: 6px solid #fff;
 	width: 0; 
-	height: 20px;
+	height: 14px;
 }
 
 .tree li a {
-	padding: 5px 10px;
 	text-decoration: none;
 	color: #666;
 	font-family: arial, verdana, tahoma;
@@ -705,7 +714,7 @@ right connector from last child*/
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 
-	padding: 6px;
+	padding: 3px;
 	background: #fff;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 	border-radius: 4px 4px 4px 4px;
@@ -714,19 +723,4 @@ right connector from last child*/
 }
 .tree li a span {
 	display: block;
-}
-
-/*Time for some hover effects*/
-/*We will apply the hover effect the the lineage of the element also*/
-.tree li a:hover,
-.tree li a:hover+ul li a {
-	background: #c8e4f8;
-	color: #000; 
-}
-/*Connector styles on hover*/
-.tree li a:hover+ul li::after, 
-.tree li a:hover+ul li::before, 
-.tree li a:hover+ul::before, 
-.tree li a:hover+ul ul::before {
-	border-color:  #94a0b4;
 }
