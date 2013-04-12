@@ -221,6 +221,15 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	}
 
 	String cookiestr = "";
+	
+	public String getCookieString() {
+		return cookiestr;
+	}
+	
+	public void setCookieString( String cookiestr ) {
+		this.cookiestr = cookiestr;
+	}
+	
 	@Override
 	public String login(String user, String password) {
 		try {

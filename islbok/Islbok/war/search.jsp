@@ -6,6 +6,8 @@
 	String name = request.getParameter("name");
 	String dob = request.getParameter("dob");
 	Person currPerson = (Person) session.getAttribute("currPerson");
+	String cookiestr = (String)session.getAttribute("jicookie");
+	fimp.setCookieString( cookiestr );
 	//Person p = (Person) session.getAttribute("currPerson");
 	if(name == null && dob == null)
 	{

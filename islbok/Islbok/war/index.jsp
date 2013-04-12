@@ -7,6 +7,7 @@
 	String user = request.getParameter("username");
 	String pw = request.getParameter("pw");
 	Person currPerson = (Person) session.getAttribute("currPerson");
+	String currCookie = (String) session.getAttribute("jicookie");
 
 	if(currPerson == null)
 	{
@@ -21,12 +22,12 @@
 				currPerson = fimp.parseIslbokPerson(person);
 				currPerson.setSession(values[0]);
 				session.setAttribute("currPerson", currPerson);
+				session.setAttribute("jicookie", fimp.getCookieString());
 				
 				String fatherJSON = fimp.islbok_get(currPerson.getSession(), currPerson.getFather().getIslbokid());
 				currPerson.setFather(fimp.parseIslbokPerson(fatherJSON));
 				String motherJSON = fimp.islbok_get(currPerson.getSession(), currPerson.getMother().getIslbokid());
 				currPerson.setMother(fimp.parseIslbokPerson(motherJSON));
-				
 			}
 			else
 		 	{
@@ -37,7 +38,7 @@
 	 	{
 			response.sendRedirect("login.jsp");
 		}
-	}
+	} else fimp.setCookieString( currCookie );
  %>
 
 <%@ include file="top.jsp" %>
