@@ -34,4 +34,6 @@ public interface FrislbokServiceAsync {
 
 	void islbok_trace(String session, String id, AsyncCallback<String> callback);
 
+	void islbok_mates(String session, String id, AsyncCallback<String> callback);
+
 }

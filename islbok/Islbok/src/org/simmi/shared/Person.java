@@ -1,13 +1,14 @@
 package org.simmi.shared;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 
 public class Person implements Serializable {
-	//private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6226445402443113097L;
 	
 	String	name;
 	int		gender;
@@ -164,9 +165,9 @@ public class Person implements Serializable {
 	
 	Person			father;
 	Person			mother;
-	Set<Person>		children;
-	Set<Person>		siblings;
-	Set<Person>		mates;
+	Collection<Person>		children;
+	Collection<Person>		siblings;
+	Collection<Person>		mates;
 	
 	public boolean isMale() {
 		return gender == 1;
@@ -184,7 +185,7 @@ public class Person implements Serializable {
 		return mother;
 	}
 	
-	public Set<Person> getChildren() {
+	public Collection<Person> getChildren() {
 		return children;
 	}
 	
@@ -209,11 +210,11 @@ public class Person implements Serializable {
 		else setMother( parent );
 	}
 	
-	public void setChildren( Set<Person> children ) {
+	public void setChildren( Collection<Person> children ) {
 		this.children = children;
 	}
 	
-	public void addChildren( Set<Person> newchildren ) {
+	public void addChildren( Collection<Person> newchildren ) {
 		if( this.children == null ) this.children = new HashSet<Person>();
 		if( newchildren != null ) this.children.addAll( newchildren );
 	}
@@ -228,11 +229,34 @@ public class Person implements Serializable {
 		return false;
 	}
 	
-	public Set<Person> getSiblings() {
+	public Collection<Person> getMates() {
+		return mates;
+	}
+	
+	public void setMates( Collection<Person> mates ) {
+		this.mates = mates;
+	}
+	
+	public void addMates( Collection<Person> newmates ) {
+		if( this.mates == null ) this.mates = new HashSet<Person>();
+		if( newmates != null ) this.mates.addAll( newmates );
+	}
+	
+	public boolean addMate( Person mate ) {
+		if( mates == null ) mates = new HashSet<Person>();
+		if( mates.add( mate ) ) {
+			mate.addMate( this );
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public Collection<Person> getSiblings() {
 		return siblings;
 	}
 	
-	public void setSiblings( Set<Person> siblings ) {
+	public void setSiblings( Collection<Person> siblings ) {
 		this.siblings = siblings;
 	}
 	
@@ -244,6 +268,11 @@ public class Person implements Serializable {
 		}
 		
 		return false;
+	}
+	
+	public void addSiblings( Collection<Person> newsiblings ) {
+		if( this.siblings == null ) this.siblings = new HashSet<Person>();
+		if( newsiblings != null ) this.siblings.addAll( newsiblings );
 	}
 	
 	public void addSibling( Person sibling ) {

@@ -6,6 +6,7 @@
 	FrislbokServiceImpl fimp = new FrislbokServiceImpl();
 	String id = request.getParameter("id");
 	Person currPerson = (Person) session.getAttribute("currPerson");
+	fimp.setCookieString( (String)session.getAttribute("jicookie") );
 	String traceJSON = fimp.islbok_trace(currPerson.getSession(), id);
 
 	if(traceJSON.charAt(0) == '{' || traceJSON.charAt(0) == '[')
