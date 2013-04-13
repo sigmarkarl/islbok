@@ -2,7 +2,15 @@
 <%@ page import="org.simmi.shared.Person" %>
 <%@ include file="top.jsp" %>
 <%
-	Person currPerson = (Person) session.getAttribute("currPerson");
+	Person currPerson = null;
+	//session.removeAttribute("currPerson");
+	//session.invalidate();
+	try {
+		currPerson = (Person) session.getAttribute("currPerson");
+	} catch( Exception e ) {
+		
+	}
+	
 	if(currPerson != null)
 	{
 		response.sendRedirect("index.jsp");

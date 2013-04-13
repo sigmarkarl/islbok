@@ -2,6 +2,8 @@
 <%@ page import="org.simmi.server.FrislbokServiceImpl" %>
 <%@ page import="org.simmi.shared.Person" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.Collection" %>
 <% 
 	FrislbokServiceImpl fimp = new FrislbokServiceImpl();
 	Person currPerson = (Person) session.getAttribute("currPerson");
@@ -28,6 +30,18 @@
 				currPerson.setFather(fimp.parseIslbokPerson(fatherJSON));
 				String motherJSON = fimp.islbok_get(currPerson.getSession(), currPerson.getMother().getIslbokid());
 				currPerson.setMother(fimp.parseIslbokPerson(motherJSON));
+				
+				String childrenJSON = fimp.islbok_children(currPerson.getSession(), currPerson.getIslbokid());
+				Person[] children = fimp.parseIslbokPersonArray( childrenJSON );
+				currPerson.addChildren( Arrays.asList( children ) );
+				
+				String siblingsJSON = fimp.islbok_siblings(currPerson.getSession(), currPerson.getIslbokid());
+				Person[] siblings = fimp.parseIslbokPersonArray( siblingsJSON );
+				currPerson.addSiblings( Arrays.asList( siblings ) );
+				
+				String matesJSON = fimp.islbok_mates(currPerson.getSession(), currPerson.getIslbokid());
+				Person[] mates = fimp.parseIslbokPersonArray( matesJSON );
+				currPerson.addMates( Arrays.asList( mates ) );
 			}
 			else
 		 	{
@@ -50,7 +64,7 @@
 	<div class="userinfo">
 		<span class="img"><img src="images/profile.png" /></span>
 		<h2><p><%=currPerson.getName()%></p></h2>
-		<p><%=currPerson.isMale() ? "Fæddur" : "Fædd"%> <%=currPerson.getComment()%></p>
+		<p><%=currPerson.isMale() ? "Fæddur" : "Fædd"%> <%=currPerson.getComment()%> <br> <%=currPerson.getDateOfBirthHR()%></p>
 	</div>
 
 	<div class="tabs">
@@ -85,22 +99,13 @@
 							<div class="col1">
 								<h3>Alsystkin</h3>
 								<ul>
-									<li>								
-										<a href="#"><span class="img"><img src="images/profile.png" /></span>
-										Nafn Nafnason<br /><span>1973</span></a>
-									</li>
+								<%Collection<Person> siblings = currPerson != null ? currPerson.getSiblings() : null;
+								  if( siblings != null ) for( Person sibling : siblings ) {%>
 									<li>
 										<a href="#"><span class="img"><img src="images/profile.png" /></span>
-										Nafn Nafnason<br /><span>1973</span></a>
+										<p class="text"><%=sibling.getName()%><br /><span><%=sibling.getDateOfBirthHR()%></span></p></a>
 									</li>
-									<li>
-										<a href="#"><span class="img"><img src="images/profile.png" /></span>
-										Nafn Nafnason<br /><span>1973</span></a>
-									</li>
-									<li>
-										<a href="#"><span class="img"><img src="images/profile.png" /></span>
-										Nafn Nafnason<br /><span>1973</span></a>
-									</li>
+								<%}%>
 								</ul>
 							</div>
 							<div class="col2">
@@ -115,12 +120,17 @@
 						</div>
 			<div class="tab partners multi" id="tab3">
 				<div class="col1">
-					<h3>Eiginmaður</h3>
-					<ul>
-						<li>								
-							<a href="#"><img src="images/profile.png" /><br />
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
+					<%if( currPerson != null ) {%>
+						<h3><%=currPerson.isMale() ? "Eiginkona" : "Eiginmaður"%></h3>
+						<ul>
+						<%Collection<Person> mates = currPerson.getMates();
+					  	if( mates != null ) for( Person mate : mates ) {%>
+							<li>								
+								<a href="#"><img src="images/profile.png" /><br />
+								<%=mate.getName()%><br /><span><%=mate.getDateOfBirthHR()%></span></a>
+							</li>
+						<%}%>
+					<%}%>
 					</ul>
 				</div>
 				<div class="col2">
@@ -130,27 +140,18 @@
 							<a href="#"><img src="images/profile.png" /><br />
 							Nafn Nafnason<br /><span>1973</span></a>
 						</li>
-						<li>
-							<a href="#"><img src="images/profile.png" /><br />
-							Nafn Nafnason<br /><span>1973</span></a>
-						</li>
 					</ul>
 				</div>
 			</div>
 			<div class="tab children" id="tab4">
 				<ul>
+				<%Collection<Person> children = currPerson != null ? currPerson.getChildren() : null;
+				  if( children != null ) for( Person child : children ) {%>
 					<li>
 						<a href="#"><img src="images/profile.png" /><br />
-						Nafn Nafnason<br /><span>1973</span></a>
+						<%=child.getName()%><br /><span><%=child.getDateOfBirthHR()%></span></a>
 					</li>
-					<li>
-						<a href="#"><img src="images/profile.png" /><br />
-						Nafn Nafnason<br /><span>1973</span></a>
-					</li>
-					<li>
-						<a href="#"><img src="images/profile.png" /><br />
-						Nafn Nafnason<br /><span>1973</span></a>
-					</li>
+				<%}%>
 				</ul>
 			</div>
 		</div>

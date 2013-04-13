@@ -42,6 +42,8 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 	public Person fetchFromFacebookId(String uid) {
 		Person retPerson = null;
 		
+		//this.getThreadLocalRequest().getSession().
+		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query query = new Query("person");
 		FilterPredicate	filter = new FilterPredicate("islbokid", FilterOperator.EQUAL, uid);
@@ -347,7 +349,41 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			URLConnection urlconn = url.openConnection();
 			if( cookiestr != null ) {
 				//this.log("ok "+cookies.length);
-				this.log(cookiestr);
+				urlconn.setRequestProperty("Cookie", cookiestr);
+			}
+			InputStream is = urlconn.getInputStream();
+			ByteArrayOutputStream	baos = new ByteArrayOutputStream();
+			
+			int c = is.read();
+			while( c != -1 ) {
+				baos.write( c );
+				c = is.read();
+			}
+			is.close();
+			String ret = baos.toString( "iso-8859-1" );
+			
+			System.err.println("query " + id + " " + ret );
+			
+			return ret;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public String islbok_mates(String session, String id) {
+		try {
+			String query = "mates?session="+session+"&id="+id;
+			//String query = URLEncoder.encode( stuff, "UTF8" );
+			String urlstr = "http://www.islendingabok.is/ib_app/"+query;
+			
+			URL url = new URL( urlstr );
+			URLConnection urlconn = url.openConnection();
+			if( cookiestr != null ) {
+				//this.log("ok "+cookies.length);
 				urlconn.setRequestProperty("Cookie", cookiestr);
 			}
 			InputStream is = urlconn.getInputStream();
@@ -425,7 +461,6 @@ public class FrislbokServiceImpl extends RemoteServiceServlet implements Frislbo
 			URLConnection urlconn = url.openConnection();
 			if( cookiestr != null ) {
 				//this.log("ok "+cookies.length);
-				this.log(cookiestr);
 				urlconn.setRequestProperty("Cookie", cookiestr);
 			}
 			InputStream is = urlconn.getInputStream();
