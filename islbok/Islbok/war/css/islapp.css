@@ -107,9 +107,13 @@ li {
 
 /**** login ****/
 .login .wrap {
-	background: url(img/login-bg.png) 0 -150px no-repeat;
+	background: #fff url(img/login-bg.png) 0 -150px no-repeat;
 	padding: 125px 0 0;
 	min-height: 360px;
+}
+.center {
+	max-width: 320px;
+	margin: 0 auto;
 }
 .login form {
 	background: url(img/logo.png) 0 0 no-repeat;
@@ -565,7 +569,7 @@ div.top10 {
 .top10 .tlist .n6,
 .top10 .tlist .n7 {
 	width: 44px;
-	top: 230px;
+	top: 278px;
 	left: 223px;
 	font-size: .6em;
 }
