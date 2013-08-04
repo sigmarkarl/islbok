@@ -9,6 +9,7 @@
 	fimp.setCookieString( (String)session.getAttribute("jicookie") );
 	String traceJSON = fimp.islbok_trace(currPerson.getSession(), id);
 
+	System.err.println( "bleh "+traceJSON );
 	if(traceJSON.charAt(0) == '{' || traceJSON.charAt(0) == '[')
 	{
 		ArrayList personlists = (ArrayList) fimp.parseIslbokPersonArrayTrace(traceJSON);
